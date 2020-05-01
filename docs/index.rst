@@ -4,10 +4,10 @@
 .. |average_3| image:: images/average_3.jpg
 .. |average_4| image:: images/average_4.jpg
 
-Fledge Moving Average Rule
-==========================
+Moving Average Rule
+===================
 
-The *fledge-rule-average* filter is a notification filter that is used to detect when a value moves outside of the determined average by more than a specified percentage. The plugin only monitors a single asset, but will monitor all data points within that asset. It will trigger if any of the data points within the asset differ by more than the configured percentage, an average is maintained for each data point separately.
+The *fledge-rule-average* plugin is a notifcation rule that is used to detect when a value moves outside of the determined average by more than a specified percentage. The plugin only monitors a single asset, but will monitor all data points within that asset. It will trigger if any of the data points within the asset differ by more than the configured percentage, an average is maintained for each data point separately.
 
 During the configuration of a notification use the screen presented to choose the average plugin as the rule.
 
@@ -39,4 +39,7 @@ The *Average* entry is used to determine what type of average is used for the ca
 
 Exponential moving averages give more weight to the recent values compared to historical values. The smaller the EMA factor the more weight recent values carry. A value of 1 for *EMA Factor* will only consider the most recent value.
 
-The Average rule is not applicable to all data, only simple numeric values are considered and those values should not deviate with an average of 0 or close to 0 if good results are required. Data points that deviate wildly are also not suitable for this plugin.
+.. note::
+
+   The Average rule is not applicable to all data, only simple numeric values are considered and those values should not deviate with an average of 0 or close to 0 if good results are required. Data points that deviate wildly are also not suitable for this plugin.
+
