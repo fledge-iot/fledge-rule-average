@@ -58,7 +58,11 @@ void AverageRule::configure(const ConfigCategory& config)
 	unlockConfig();
 
 	string assetName = config.getValue("asset");
-	addTrigger(assetName, NULL);
+	if (!assetName.empty())
+	{
+		addTrigger(assetName, NULL);
+	}
+	
 	m_deviation = strtol(config.getValue("deviation").c_str(), NULL, 10);
 	m_direction = config.getValue("direction");
 	string aveType = config.getValue("averageType");
