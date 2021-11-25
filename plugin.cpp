@@ -76,7 +76,8 @@ static const char *default_config = QUOTE({
 			"type": "integer",
 			"default": "10",
 			"displayName":"EMA Factor",
-			"order":"5"
+			"order":"5",
+			"validity":"averageType == \"Exponential Moving Average\""
 			}
 	});
 
