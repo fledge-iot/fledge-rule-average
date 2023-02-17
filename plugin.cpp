@@ -176,10 +176,15 @@ string plugin_triggers(PLUGIN_HANDLE handle)
 		string source = rule->getSource();
 		if (source.compare("Reading") == 0)
 			ret += "{ \"asset\"  : \"" + (*it).first + "\"";
-		if (source.compare("Statistics") == 0)
+		else if (source.compare("Statistics") == 0)
 			ret += "{ \"statistic\"  : \"" + (*it).first + "\"";
-		if (source.compare("Statistics History") == 0)
+		else if (source.compare("Statistics History") == 0)
 			ret += "{ \"statisticRate\"  : \"" + (*it).first + "\"";
+		else
+		{
+			ret += "{ ";	// Keep JSON valid
+			Logger::getLogger()->error("Unsupported data source %s, rule will not subscribe to any data", source.c_str());
+		}
 		ret += " }";
 		
 		if (std::next(it, 1) != triggers.end())
