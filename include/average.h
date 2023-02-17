@@ -32,6 +32,9 @@ class AverageRule: public BuiltinRule
 		void	unlockConfig() { m_configMutex.unlock(); };
 		bool	evaluate(const std::string& asset, const std::string& datapoint, long value);
 		bool	evaluate(const std::string& asset, const std::string& datapoint, double value);
+		std::string
+			getSource() { return m_source; };
+
 		typedef enum { SMA, EMA } AverageType;
 
 	private:
@@ -67,6 +70,7 @@ class AverageRule: public BuiltinRule
 		};
 		std::map<std::string, Averages *>
 				m_averages;
+		std::string	m_source;
 };
 
 #endif

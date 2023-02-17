@@ -7,7 +7,7 @@
 Moving Average Rule
 ===================
 
-The *fledge-rule-average* plugin is a notifcation rule that is used to detect when a value moves outside of the determined average by more than a specified percentage. The plugin only monitors a single asset, but will monitor all data points within that asset. It will trigger if any of the data points within the asset differ by more than the configured percentage, an average is maintained for each data point separately.
+The *fledge-rule-average* plugin is a notification rule that is used to detect when a value moves outside of the determined average by more than a specified percentage. The plugin only monitors a single asset, but will monitor all data points within that asset. It will trigger if any of the data points within the asset differ by more than the configured percentage, an average is maintained for each data point separately.
 
 During the configuration of a notification use the screen presented to choose the average plugin as the rule.
 
@@ -21,7 +21,9 @@ The next screen you are presented with provides the configuration options for th
 | |average_2| |
 +-------------+
 
-The *Asset* entry field is used to define the single asset that the plugin should monitor.
+The *Data Source* drop down menu allows for the choice of which of the available data streams will be evaluated by the rule. The options are *Readings*, *Statistics* or *Statistics History*.
+
+The *Name* entry field is used to define the name of the statistic or asset that the plugin should monitor.
 
 The *Deviation %* defines how far away from the observed average the current value should be in order to considered as triggering the rule.
 
@@ -43,3 +45,23 @@ Exponential moving averages give more weight to the recent values compared to hi
 
    The Average rule is not applicable to all data, only simple numeric values are considered and those values should not deviate with an average of 0 or close to 0 if good results are required. Data points that deviate wildly are also not suitable for this plugin.
 
+Data Source
+-----------
+
+The rule may be used to test the values of the data that is ingested by
+south services within Fledge or the statistics that Fledge itself creates.
+
+When the rule examines a reading in the Fledge data stream it must be
+given then name of the asset to observe.  The data points within the asset
+should contain numeric data.
+
+When observing a statistic there are two choices that can be made,
+to monitor the raw statistics value, which is a simple count, or to
+examine the statistic history. The value received by the average rule
+for a statistic is the increment that is added to the statistic and not
+the absolute value of the statistics.
+
+The statistic history is the value seen plotted in
+the dashboard graphs and shows the change in the statistic value over
+a defined period. By default the period is 15 seconds, however this is
+configurable.
