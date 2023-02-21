@@ -174,7 +174,7 @@ string plugin_triggers(PLUGIN_HANDLE handle)
 		  ++it)
 	{
 		string source = rule->getSource();
-		if (source.compare("Reading") == 0)
+		if (source.compare("Readings") == 0)
 			ret += "{ \"asset\"  : \"" + (*it).first + "\"";
 		else if (source.compare("Statistics") == 0)
 			ret += "{ \"statistic\"  : \"" + (*it).first + "\"";
