@@ -41,19 +41,27 @@ static const char *default_config = QUOTE({
 			"default":  RULE_NAME,
 			"readonly": "true"
 			},
+	"source" : {
+			"description": "Source of the data to use for the rule",
+			"type": "enumeration",
+			"default": "Readings",
+			"options" : [ "Readings", "Statistics", "Statistics History" ],
+			"displayName" : "Data Source",
+			"order": "1"
+			},
 	"asset": 	{
-			"description" : "Asset to monitor",
+			"description" : "The name of the asset or statistic to monitor",
 			"type" : "string",
 			"default" : "",
-			"displayName" : "Asset",
-			"order": "1"
+			"displayName" : "Name",
+			"order": "2"
 		       	},
 	"deviation":	{
 			"description": "Allowed percentage deviation from average",
 			"type": "integer",
 			"default": "10",
 			"displayName":"Deviation %",
-			"order":"2"
+			"order":"3"
 			},
 	"direction":	{
 			"description": "Trigger on direction of deviation",
@@ -61,7 +69,7 @@ static const char *default_config = QUOTE({
 			"options" : [ "Above Average", "Below Average", "Both" ],
 			"default": "Both",
 			"displayName":"Direction",
-			"order":"3"
+			"order":"4"
 			},
 	"averageType":	{
 			"description": "The type of average to calculate",
@@ -69,14 +77,14 @@ static const char *default_config = QUOTE({
 			"options" : [ "Simple Moving Average", "Exponential Moving Average" ],
 			"default": "Simple Moving Average",
 			"displayName":"Average",
-			"order":"4"
+			"order":"5"
 			},
 	"factor":	{
 			"description": "Exponential moving average factor",
 			"type": "integer",
 			"default": "10",
 			"displayName":"EMA Factor",
-			"order":"5",
+			"order":"6",
 			"validity":"averageType == \"Exponential Moving Average\""
 			}
 	});
@@ -165,7 +173,18 @@ string plugin_triggers(PLUGIN_HANDLE handle)
 		  it != triggers.end();
 		  ++it)
 	{
-		ret += "{ \"asset\"  : \"" + (*it).first + "\"";
+		string source = rule->getSource();
+		if (source.compare("Readings") == 0)
+			ret += "{ \"asset\"  : \"" + (*it).first + "\"";
+		else if (source.compare("Statistics") == 0)
+			ret += "{ \"statistic\"  : \"" + (*it).first + "\"";
+		else if (source.compare("Statistics History") == 0)
+			ret += "{ \"statisticRate\"  : \"" + (*it).first + "\"";
+		else
+		{
+			ret += "{ ";	// Keep JSON valid
+			Logger::getLogger()->error("Unsupported data source %s, rule will not subscribe to any data", source.c_str());
+		}
 		ret += " }";
 		
 		if (std::next(it, 1) != triggers.end())
