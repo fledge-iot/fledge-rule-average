@@ -62,6 +62,7 @@ void AverageRule::configure(const ConfigCategory& config)
 	{
 		addTrigger(assetName, NULL);
 	}
+	m_source = config.getValue("source");
 	
 	m_deviation = strtol(config.getValue("deviation").c_str(), NULL, 10);
 	m_direction = config.getValue("direction");
